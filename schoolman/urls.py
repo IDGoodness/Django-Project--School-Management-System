@@ -16,13 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
+from schoolman.staffapp.views import SignUpView
+from . import settings
+from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
-    # re_path(r'^dashboard', TemplateView.as_view(template_name='dashboard.html'), name="dashboard"),
+    re_path(r'^dashboard', TemplateView.as_view(template_name='dashboard.html'), name="dashboard"),
+    re_path(r'^accounts/', include('django.contrib.auth.urls')),
+    re_path(r'^accounts/signup/$', SignUpView.as_view(), name= "signup"),
+    
 ]
 
 
-# urlpatterns += staticfiles_urlpatterns()
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
